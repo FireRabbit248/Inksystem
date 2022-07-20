@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://FPSV1/FPSV1.gd" type="Script" id=1]
+
+[sub_resource type="CapsuleMesh" id=1]
+radius = 0.5
+
+[sub_resource type="CapsuleShape" id=4]
+radius = 0.5
+
+[sub_resource type="CylinderShape" id=3]
+radius = 0.5
+height = 1.0
+
+[node name="FPS" type="KinematicBody"]
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 4 )
+
+[node name="Foot" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
+shape = SubResource( 3 )
+disabled = true
+
+[node name="Head" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87164, 0 )
+
+[node name="Camera" type="Camera" parent="Head"]
+near = 0.01
+
+[node name="RayCast" type="RayCast" parent="Head/Camera"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1.07691 )
+enabled = true
+cast_to = Vector3( 0, -200, 0 )
