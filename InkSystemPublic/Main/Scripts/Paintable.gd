@@ -16,6 +16,7 @@ var meshScale : Vector3
 var meshPosition : Vector3
 var meshRotation : Vector3
 var isKinematicBody : bool
+var meshOriginalSize : float
 
 
 
@@ -38,7 +39,8 @@ func _ready():
 		o_viewport.size = o_paintMask.texture.get_size()
 	else:
 		print("PaintMask needs a texture")
-
+	
+	meshOriginalSize = o_inkSurface.get_aabb().get_longest_axis_size()
 
 
 func _physics_process(_delta):
@@ -50,15 +52,16 @@ func _physics_process(_delta):
 
 
 func _paint(paintPos : Vector3, radius : float, color : Color):
+	print(meshOriginalSize)
 	if paintPos:
 		# Translation
 		paintPos -= meshPosition
 		# Scale
-		paintPos /= meshScale
+		paintPos /= meshScale * meshOriginalSize
 		# Rotation around the y-Axis
 		paintPos = paintPos.rotated(o_inkSurface.global_transform.basis.y.normalized(), -meshRotation.y)
 		
 		mat.set_shader_param("pos", paintPos)
 		mat.set_shader_param("brushColor", color)
-		mat.set_shader_param("radius", radius / meshScale.x)
+		mat.set_shader_param("radius", radius / meshScale.x / meshOriginalSize)
 		o_viewport.render_target_update_mode = Viewport.UPDATE_ONCE
