@@ -14,6 +14,10 @@ config/name="Ink System Public"
 run/main_scene="res://Main/Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+SignalBus="*res://Main/Scripts/SignalBus.gd"
+
 [display]
 
 window/stretch/mode="viewport"

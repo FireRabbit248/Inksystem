@@ -71,13 +71,11 @@ func paint():
 	if paintPos:
 		# paint
 		if Input.get_action_strength("paint1") and o_raycast.is_colliding():
-			if o_inkSystem.has_method("_paint"):
-				o_inkSystem._paint(paintPos, 2.0, Color(1,0,0,1))
+			SignalBus.emit_signal("paintSignal", paintPos, 2.0, Color(1,0,0,1))
 		
 		# erase
 		if Input.get_action_strength("paint2") and o_raycast.is_colliding():
-			if o_inkSystem.has_method("_paint"):
-				o_inkSystem._paint(paintPos, 2.0, Color(0,1,0,1))
+			SignalBus.emit_signal("paintSignal", paintPos, 2.0, Color(0,1,0,1))
 
 
 

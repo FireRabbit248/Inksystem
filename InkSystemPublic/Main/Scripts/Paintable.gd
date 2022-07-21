@@ -1,5 +1,7 @@
 extends Spatial
 
+
+
 # Paintable Node
 # needs a MeshInstance with the name "InkSurface" and a KinematicBody or Rigidbody as a child
 #
@@ -27,7 +29,7 @@ func _ready():
 		isKinematicBody = o_inkSurface.get_child(0) is KinematicBody
 	else:
 		print("Meshinstance with name \"InkSurface\" is missing")
-	
+	SignalBus.connect("paintSignal", self, "_paint")
 	
 	o_viewport.get_texture().flags = Texture.FLAG_FILTER
 	
@@ -47,7 +49,7 @@ func _physics_process(_delta):
 
 
 
-func _get_paint(paintPos: Vector3, radius : float, color : Color):
+func _paint(paintPos : Vector3, radius : float, color : Color):
 	if paintPos:
 		# Translation
 		paintPos -= meshPosition
@@ -60,4 +62,3 @@ func _get_paint(paintPos: Vector3, radius : float, color : Color):
 		mat.set_shader_param("brushColor", color)
 		mat.set_shader_param("radius", radius / meshScale.x)
 		o_viewport.render_target_update_mode = Viewport.UPDATE_ONCE
-		
